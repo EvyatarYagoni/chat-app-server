@@ -5,9 +5,11 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const {json} = require("express");
 const allRoutes = require('./src/routes/index');
+const cookieParser = require('cookie-parser');
 const connectDB = require('./src/config/database/connection');
 
 dotenv.config(); // Load environment variables
+app.use(cookieParser())
 app.use(cors());
 app.use(json());
 

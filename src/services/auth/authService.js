@@ -5,8 +5,6 @@ const bcrypt = require("bcrypt");
 exports.login = async (req, res) => {
     const {email, password} = req.body;
 
-    console.log(email, password);
-
     // Authenticate user
     const user = await User.findOne({ email: email });
     if (!user) {
