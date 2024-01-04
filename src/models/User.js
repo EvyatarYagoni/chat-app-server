@@ -19,10 +19,6 @@ const userSchema = new mongoose.Schema({
         trim: true,
         maxlength: [50, 'Email cannot be more than 50 characters']
     },
-    phoneNumber: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    timestamps: true
-});
+},
+    { timestamps: true }
+);
