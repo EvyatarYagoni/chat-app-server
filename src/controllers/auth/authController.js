@@ -18,14 +18,19 @@ exports.login = async (req, res) => {
 
 
 exports.signup = async (req, res) => {
-    const { accessToken, refreshToken } = await authService.signup(req, res); // Destructure tokens from authService response
+    try {
+        const {accessToken, refreshToken} = await authService.signup(req, res); // Destructure tokens from authService response
 
-    // Add both tokens to cookies with HTTPOnly flag for security
-    res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 }); // 7 days
-    res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 }); // 7 days
+        // Add both tokens to cookies with HTTPOnly flag for security
+        res.cookie('accessToken', accessToken, {httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7}); // 7 days
+        res.cookie('refreshToken', refreshToken, {httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7}); // 7 days
 
-    // Respond with a success message or appropriate status
-    res.status(200).send({ message: 'Signup successful' });
+        // Respond with a success message or appropriate status
+        res.status(200).send({message: 'Signup successful'});
+    } catch (error) {
+        // Handle errors appropriately, such as sending an error status or message
+        res.status(500).send({error: 'Signup failed'});
+    }
 }
 
 exports.logout = (req, res) => {
