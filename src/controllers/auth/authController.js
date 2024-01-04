@@ -1,12 +1,13 @@
 const authService = require('../../services/auth/authService');
 
-exports.login = (req, res) => {
-    const tokenObject = authService.login(req, res); // Get the data from the authService
+exports.login = async (req, res) => {
+    const tokenObject = await authService.login(req, res); // Get the data from the authService
     res.json(tokenObject);
 }
 
-exports.signup = (req, res) => {
-    res.send('Signup2');
+exports.signup = async (req, res) => {
+    const tokenObject = await authService.signup(req, res); // Get the data from the authService
+    res.json(tokenObject);
 }
 
 exports.logout = (req, res) => {
