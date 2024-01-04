@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const {json} = require("express");
 const allRoutes = require('./src/routes/index');
+const connectDB = require('./src/config/database/connection');
 
 dotenv.config(); // Load environment variables
 app.use(cors());
@@ -14,6 +15,8 @@ app.use('/api', allRoutes);
 
 const port = process.env.PORT || 8080;
 
-server.listen(port, function() {
+
+server.listen(port, async function() {
     console.log(`Listening on port ${port}`);
+    await connectDB();
 });
