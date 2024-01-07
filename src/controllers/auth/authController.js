@@ -1,7 +1,12 @@
 const authService = require('../../services/auth/authService');
+const {asyncValidateData} = require("../../validations/validationUtils");
+const loginRequestSchema = require("../../validations/requests/loginRequestValidation");
+const signupRequestSchema = require("../../validations/requests/signupRequestValidation");
 
 exports.login = async (req, res) => {
     try {
+        await asyncValidateData(req.body, loginRequestSchema);
+
         const { accessToken, refreshToken } = await authService.login(req, res); // Destructure tokens from authService response
 
         // Add both tokens to cookies with HTTPOnly flag for security
@@ -19,6 +24,8 @@ exports.login = async (req, res) => {
 
 exports.signup = async (req, res) => {
     try {
+        await asyncValidateData(req.body, signupRequestSchema);
+
         const {accessToken, refreshToken} = await authService.signup(req, res); // Destructure tokens from authService response
 
         // Add both tokens to cookies with HTTPOnly flag for security
