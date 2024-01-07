@@ -1,7 +1,12 @@
 const authService = require('../../services/auth/authService');
+const {asyncValidateData} = require("../../validations/validationUtils");
+const loginRequestSchema = require("../../validations/requests/loginRequestValidation");
+const signupRequestSchema = require("../../validations/requests/signupRequestValidation");
 
 exports.login = async (req, res) => {
     try {
+        await asyncValidateData(req.body, loginRequestSchema);
+
         const { accessToken, refreshToken } = await authService.login(req, res); // Destructure tokens from authService response
 
         // Add both tokens to cookies with HTTPOnly flag for security
@@ -12,13 +17,15 @@ exports.login = async (req, res) => {
         res.status(200).send({ message: 'Login successful' });
     } catch (error) {
         // Handle errors appropriately, such as sending an error status or message
-        res.status(500).send({ error: 'Login failed' });
+        res.status(500).send({ error: 'Login failed', message: error.message });
     }
 };
 
 
 exports.signup = async (req, res) => {
     try {
+        await asyncValidateData(req.body, signupRequestSchema);
+
         const {accessToken, refreshToken} = await authService.signup(req, res); // Destructure tokens from authService response
 
         // Add both tokens to cookies with HTTPOnly flag for security
@@ -29,7 +36,7 @@ exports.signup = async (req, res) => {
         res.status(200).send({message: 'Signup successful'});
     } catch (error) {
         // Handle errors appropriately, such as sending an error status or message
-        res.status(500).send({error: 'Signup failed'});
+        res.status(500).send({error: 'Signup failed', message: error.message});
     }
 }
 
