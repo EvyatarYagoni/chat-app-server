@@ -29,7 +29,7 @@ exports.signup = async (req, res) => {
         res.status(200).send({message: 'Signup successful'});
     } catch (error) {
         // Handle errors appropriately, such as sending an error status or message
-        res.status(500).send({error: 'Signup failed'});
+        res.status(500).send({error: 'Signup failed', message: error.message});
     }
 }
 
