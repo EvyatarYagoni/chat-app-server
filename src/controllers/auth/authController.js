@@ -12,7 +12,7 @@ exports.login = async (req, res) => {
         res.status(200).send({ message: 'Login successful' });
     } catch (error) {
         // Handle errors appropriately, such as sending an error status or message
-        res.status(500).send({ error: 'Login failed' });
+        res.status(500).send({ error: 'Login failed', message: error.message });
     }
 };
 
