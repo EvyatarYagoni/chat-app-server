@@ -67,6 +67,12 @@ exports.signup = async (req, res) => {
     return { accessToken: accessToken, refreshToken: refreshToken };
 }
 
-exports.logout = (req, res) => {
-    res.send('Logout2');
+exports.logout = async (req, res) => {
+    // Clear cookies
+    res.clearCookie('refreshToken');
+
+    // Remove user refresh token from database
+    const user = req.user;
+    user.refreshToken = undefined;
+    await user.save();
 }

@@ -40,12 +40,15 @@ exports.signup = async (req, res) => {
     }
 }
 
-exports.logout = (req, res) => {
-    // Clear cookies
-    res.clearCookie('refreshToken');
+exports.logout = async (req, res) => {
+    try {
+        await authService.logout(req, res);
 
-    // Respond with a success message or appropriate status
-    res.status(200).send({ message: 'Logout successful' });
+        // Respond with a success message or appropriate status
+        res.status(200).send({ message: 'Logout successful' });
+    } catch (error) {
+        res.status(500).send({ error: 'Logout failed', message: error.message });
+    }
 }
 
 
