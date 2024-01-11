@@ -18,6 +18,8 @@ app.use(
 );
 app.use(json());
 
+connectDB();
+
 app.use('/api', allRoutes);
 
 const port = process.env.PORT || 8080;
@@ -25,5 +27,4 @@ const port = process.env.PORT || 8080;
 
 server.listen(port, async function() {
     console.log(`Listening on port ${port}`);
-    await connectDB();
 });
