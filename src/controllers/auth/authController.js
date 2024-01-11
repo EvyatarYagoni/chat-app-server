@@ -2,6 +2,7 @@ const authService = require('../../services/auth/authService');
 const {asyncValidateData} = require("../../validations/validationUtils");
 const loginRequestSchema = require("../../validations/requests/loginRequestValidation");
 const signupRequestSchema = require("../../validations/requests/signupRequestValidation");
+const jwtService = require("../../services/jwt/jwtService");
 
 exports.login = async (req, res) => {
     try {
@@ -46,6 +47,17 @@ exports.logout = async (req, res) => {
 
         // Respond with a success message or appropriate status
         res.status(200).send({ message: 'Logout successful' });
+    } catch (error) {
+        res.status(500).send({ error: 'Logout failed', message: error.message });
+    }
+}
+
+exports.refreshToken = async (req, res) => {
+    try {
+        const {accessToken} = await jwtService.refreshToken(req);
+
+        // Respond with a success message or appropriate status
+        res.status(200).send({ message: 'Logout successful', accessToken });
     } catch (error) {
         res.status(500).send({ error: 'Logout failed', message: error.message });
     }
