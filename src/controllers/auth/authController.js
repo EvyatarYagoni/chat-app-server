@@ -57,9 +57,9 @@ exports.refreshToken = async (req, res) => {
         const {accessToken} = await jwtService.refreshToken(req);
 
         // Respond with a success message or appropriate status
-        res.status(200).send({ message: 'Logout successful', accessToken });
+        res.status(200).send({ message: 'Refresh successful', accessToken });
     } catch (error) {
-        res.status(500).send({ error: 'Logout failed', message: error.message });
+        res.status(401).send({ error: 'Refresh failed', message: error.message });
     }
 }
 
