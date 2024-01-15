@@ -76,3 +76,7 @@ exports.logout = async (req, res) => {
     user.refreshToken = undefined;
     await user.save();
 }
+
+exports.getUser = async (email) => {
+    return User.findOne({ email: email });
+}

@@ -59,7 +59,19 @@ exports.refreshToken = async (req, res) => {
         // Respond with a success message or appropriate status
         res.status(200).send({ message: 'Refresh successful', accessToken });
     } catch (error) {
-        res.status(401).send({ error: 'Refresh failed', message: error.message });
+        res.status(403).send({ error: 'Refresh failed', message: error.message });
+    }
+}
+
+exports.getUser = async (req, res) => {
+    try {
+        console.log('req.user', req.user);
+        const user = await authService.getUser(req.user.email);
+
+        // Respond with a success message or appropriate status
+        res.status(200).send({ message: 'Get user successful', user });
+    } catch (error) {
+        res.status(401).send({ error: 'Get user failed', message: error.message });
     }
 }
 
