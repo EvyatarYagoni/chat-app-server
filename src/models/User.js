@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     { timestamps: true }
 );
 
-// Exclude password field from all queries by default
+// Exclude password and refreshToken fields from all queries by default
 userSchema.set('toJSON', {
     transform: (doc, ret) => {
         delete ret.password;
