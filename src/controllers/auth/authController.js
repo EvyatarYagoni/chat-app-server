@@ -65,7 +65,6 @@ exports.refreshToken = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     try {
-        console.log('req.user', req.user);
         const user = await authService.getUser(req.user.email);
 
         // Respond with a success message or appropriate status
