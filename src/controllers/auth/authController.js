@@ -56,7 +56,6 @@ exports.refreshToken = async (req, res) => {
     try {
         const {accessToken} = await jwtService.refreshToken(req);
 
-        // Respond with a success message or appropriate status
         res.status(200).send({ message: 'Refresh successful', accessToken });
     } catch (error) {
         res.status(401).send({ error: 'Refresh failed', message: error.message });
@@ -67,7 +66,6 @@ exports.getUser = async (req, res) => {
     try {
         const user = await authService.getUser(req.user.email);
 
-        // Respond with a success message or appropriate status
         res.status(200).send({ message: 'Get user successful', user });
     } catch (error) {
         res.status(401).send({ error: 'Get user failed', message: error.message });
