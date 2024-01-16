@@ -12,7 +12,7 @@ dotenv.config(); // Load environment variables
 app.use(cookieParser())
 app.use(
   cors({
-      origin: "http://localhost:3000",
+      origin: process.env.APP_CLIENT_URL,
       credentials: true, // Add this line
   })
 );
