@@ -59,7 +59,7 @@ exports.refreshToken = async (req, res) => {
         // Respond with a success message or appropriate status
         res.status(200).send({ message: 'Refresh successful', accessToken });
     } catch (error) {
-        res.status(403).send({ error: 'Refresh failed', message: error.message });
+        res.status(401).send({ error: 'Refresh failed', message: error.message });
     }
 }
 
