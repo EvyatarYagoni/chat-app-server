@@ -59,7 +59,7 @@ exports.getUser = async (req, res) => {
     try {
         const user = await authService.getUser(req.user.email);
 
-        res.status(200).send({ message: 'Get user successful', user });
+        res.status(200).send({ message: 'Get user successful', data: user });
     } catch (error) {
         res.status(401).send({ error: 'Get user failed', message: error.message });
     }
