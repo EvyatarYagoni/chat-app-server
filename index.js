@@ -10,8 +10,15 @@ const connectDB = require('./src/config/database/connection');
 
 dotenv.config(); // Load environment variables
 app.use(cookieParser())
-app.use(cors());
+app.use(
+  cors({
+      origin: process.env.APP_CLIENT_URL,
+      credentials: true, // Add this line
+  })
+);
 app.use(json());
+
+connectDB();
 
 app.use('/api', allRoutes);
 
@@ -20,5 +27,4 @@ const port = process.env.PORT || 8080;
 
 server.listen(port, async function() {
     console.log(`Listening on port ${port}`);
-    await connectDB();
 });

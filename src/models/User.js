@@ -19,9 +19,21 @@ const userSchema = new mongoose.Schema({
         trim: true,
         maxlength: [50, 'Email cannot be more than 50 characters']
     },
+    refreshToken: {
+        type: String,
+        default: ''
+    },
 },
     { timestamps: true }
 );
+
+// Exclude password field from all queries by default
+userSchema.set('toJSON', {
+    transform: (doc, ret) => {
+        delete ret.password;
+        return ret;
+    },
+});
 
 const User = mongoose.model('User', userSchema);
 

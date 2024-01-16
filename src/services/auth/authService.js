@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt");
 exports.login = async (req, res) => {
     const {email, password} = req.body;
 
+    const refreshToken = generateRefreshToken(email);
+
     // Authenticate user
     const user = await User.findOne({ email: email });
     if (!user) {
@@ -16,20 +18,27 @@ exports.login = async (req, res) => {
         throw new Error('Password is not correct');
     }
 
+    // save new refreshToken
+    user.refreshToken = refreshToken;
+    await user.save();
+
     const userForToken = {
         username: user.username,
-        email: user.email
+        email: user.email,
+        id: user._id
     }
 
     const accessToken = generateAccessToken(userForToken);
-    const refreshToken = generateRefreshToken(userForToken);
+    // const refreshToken = generateRefreshToken(userForToken);
     // refreshToken.push(refreshToken);
 
-    return { accessToken: accessToken, refreshToken: refreshToken };
+    return { accessToken: accessToken, refreshToken: user.refreshToken };
 }
 
 exports.signup = async (req, res) => {
     const {username, email, password} = req.body;
+
+    const refreshToken = generateRefreshToken(email);
 
     // check if email is taken
     const isEmailTaken = await User.exists({ email: email });
@@ -38,23 +47,36 @@ exports.signup = async (req, res) => {
     }
 
     // create new user
-    await User.create({
+    const user = await User.create({
         username: username,
         email: email,
-        password: bcrypt.hashSync(password, 10)
+        password: bcrypt.hashSync(password, 10),
+        refreshToken: refreshToken
     });
 
-    const user = {
-        username: username,
-        email: email
+    const userForToken = {
+        username: user.username,
+        email: user.email,
+        id: user._id
     }
 
-    const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
+
+
+    const accessToken = generateAccessToken(userForToken);
 
     return { accessToken: accessToken, refreshToken: refreshToken };
 }
 
-exports.logout = (req, res) => {
-    res.send('Logout2');
+exports.logout = async (req, res) => {
+    // Clear cookies
+    res.clearCookie('refreshToken');
+
+    // Remove user refresh token from database
+    const user = req.user;
+    user.refreshToken = undefined;
+    await user.save();
+}
+
+exports.getUser = async (email) => {
+    return User.findOne({ email: email });
 }
