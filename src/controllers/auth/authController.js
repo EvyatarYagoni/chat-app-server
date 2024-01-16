@@ -8,7 +8,7 @@ exports.login = async (req, res) => {
     try {
         await asyncValidateData(req.body, loginRequestSchema);
 
-        const { accessToken, refreshToken } = await authService.login(req, res); // Destructure tokens from authService response
+        const { accessToken, refreshToken } = await authService.login(req, res);
 
         // Add token to cookies with HTTPOnly flag for security
         res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7 }); // 7 days
@@ -24,7 +24,7 @@ exports.signup = async (req, res) => {
     try {
         await asyncValidateData(req.body, signupRequestSchema);
 
-        const {accessToken, refreshToken} = await authService.signup(req, res); // Destructure tokens from authService response
+        const {accessToken, refreshToken} = await authService.signup(req, res);
 
         // Add token to cookies with HTTPOnly flag for security
         res.cookie('refreshToken', refreshToken, {httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7}); // 7 days
